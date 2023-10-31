@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+<div class="example-wrapper ml-5 m-3">
+<form method="post">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="mb-3">
+            You are logged in as {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Logout</a>
+        </div>
+    {% endif %}
+
+    <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
+    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control w-25" placeholder="Email" autocomplete="email" required autofocus>
+    <input type="password" name="password" id="inputPassword" class="form-control w-25 mt-2" placeholder="Password" autocomplete="current-password" required>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+    <button class="btn btn-primary mt-3" type="submit">Sign in</button>
+</form>
+    <div>
+        <p>Did you forgot your password? <a href="{{ path( 'app_forgot_password_request') }}">Click here to reset</a></p>
+        <p>You don't have an account? <a href="{{ path( 'app_register') }}">Click here to register</a></p>
+    </div>
+</div>
+{% endblock %}

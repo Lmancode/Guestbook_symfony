@@ -1,0 +1,56 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+    .custom-image {
+        max-width: 100%; /* Зображення завжди буде вписуватися у батьківський контейнер */
+        height: auto; /* Збереже пропорції зображення */
+    }
+</style>
+
+<div class="example-wrapper">
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Username</th>
+            <th scope="col">Email</th>
+            <th scope="col">Date Created</th>
+
+        </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <th scope="row">{{ post.id }}</th>
+                <td>{{ post.username }}</td>
+                <td>{{ post.email }}</td>
+                <td>{{ post.getCreatedAt|date('Y-m-d H:i:s') }}</td>
+            </tr>
+
+        </tbody>
+    </table>
+</div>
+    {% if post.image is same as(null) %}
+        <div class="container w-50">
+            <div class="row">
+                    <p>{{ post.text|raw }}</p>
+            </div>
+        </div>
+    {% else %}
+        <div class="container w-50">
+            <div class="row">
+                <div class="col-md-6">
+                    <img class="custom-image" src="{{ asset('uploads/images/' ~ post.image) }}" alt="Опис зображення">
+                </div>
+                <div class="col-md-6">
+                    <p>{{ post.text|raw }}</p>
+                </div>
+            </div>
+        </div>
+    {% endif %}
+
+
+
+{% endblock %}

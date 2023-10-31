@@ -1,0 +1,44 @@
+
+{% extends 'base.html.twig' %}
+
+{% block title %}main{% endblock %}
+
+{% block body %}
+    <style>
+        .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+        .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+        .no-underline {
+            text-decoration: none; /* Вимкнути підкреслення */
+        }
+    </style>
+
+    <div class="example-wrapper">
+        <div>Гостьова книга</div>
+        <div><a href="/">Change to English</a></div>
+
+        <table class="table table-striped">
+            <thead>
+            <th>{{ knp_pagination_sortable(pagination, 'Айді', 'id') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, "Ім'я", 'username') }}</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Емейл', 'email') }}</th>
+            <th>Відгук</th>
+            <th>{{ knp_pagination_sortable(pagination, 'Дата', 'created_at') }}</th>
+            </thead>
+            <tbody>
+            {% for post in pagination %}
+                <tr>
+                    <th scope="row"><a class="no-underline" href="{{ path('post_show', {'id': post.id}) }}">{{ post.id }}</a></th>
+                    <td>{{ post.username }}</td>
+                    <td>{{ post.email }}</td>
+                    <td>{{ post.text|raw }}</td>
+                    <td>{{ post.getCreatedAt|date('Y-m-d H:i:s') }}</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+        <div class="navigation">
+            {{ knp_pagination_render(pagination) }}
+        </div>
+
+    </div>
+{% endblock %}

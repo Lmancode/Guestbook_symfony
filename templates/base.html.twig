@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{% block title %}Welcome!{% endblock %}</title>
+        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
+        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+        {% block stylesheets %}
+            {{ encore_entry_link_tags('app') }}
+        {% endblock %}
+
+        {% block javascripts %}
+            {{ encore_entry_script_tags('app') }}
+        {% endblock %}
+    </head>
+    <body>
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+        <div class="mx-auto">
+
+        <div class="collapse navbar-collapse" >
+            {% set url = app.request.getRequestUri() %} {# Отримуємо поточний URL #}
+            {% if url starts with '/ukr/' %}
+            <ul class="navbar-nav mr-auto ">
+
+                <li class="nav-item text-dark">
+                    <a class="nav-link active" aria-current="page" href="{{ path("app_home") }}">Головна сторінка</a>
+                </li>
+                {% if app.user is not null and ('ROLE_ADMIN' in app.user.roles or 'ROLE_USER' in app.user.roles) %}
+                <li class="nav-item text-dark">
+                    <a class="nav-link active" aria-current="page" href="{{ path("create_post") }}">Написати відгук</a>
+                </li>
+                {% endif %}
+                {% if app.user is not null and ('ROLE_ADMIN' in app.user.roles or 'ROLE_USER' in app.user.roles) %}
+                <li class="nav-item text-dark">
+                    <a class="nav-link active" aria-current="page" href="{{ path("my_post") }}">Мої відгуки</a>
+                </li>
+                {% endif %}
+                <li class="nav-item text-dark">
+                    <a class="nav-link active" aria-current="page" href="{{ path("app_login") }}">Логін</a>
+                </li>
+                <li class="nav-item text-dark">
+                    <a class="nav-link active" aria-current="page" href="{{ path("app_register") }}">Реєстрація</a>
+                </li>
+                {% if app.user is not null and 'ROLE_ADMIN' in app.user.roles %}
+                <li class="nav-item text-dark">
+                    <a class="nav-link active" aria-current="page" href="/admin">Адмін</a>
+                </li>
+                {% endif %}
+            </ul>
+            {% else %}
+            <ul class="navbar-nav mr-auto ">
+
+                <li class="nav-item text-dark">
+                    <a class="nav-link active" aria-current="page" href="{{ path("app_home") }}">Main page</a>
+                </li>
+                {% if app.user is not null and ('ROLE_ADMIN' in app.user.roles or 'ROLE_USER' in app.user.roles) %}
+                    <li class="nav-item text-dark">
+                        <a class="nav-link active" aria-current="page" href="{{ path("create_post") }}">Create post</a>
+                    </li>
+                {% endif %}
+                {% if app.user is not null and ('ROLE_ADMIN' in app.user.roles or 'ROLE_USER' in app.user.roles) %}
+                    <li class="nav-item text-dark">
+                        <a class="nav-link active" aria-current="page" href="{{ path("my_post") }}">My Posts</a>
+                    </li>
+                {% endif %}
+                <li class="nav-item text-dark">
+                    <a class="nav-link active" aria-current="page" href="{{ path("app_login") }}">Login</a>
+                </li>
+                <li class="nav-item text-dark">
+                    <a class="nav-link active" aria-current="page" href="{{ path("app_register") }}">Register</a>
+                </li>
+                {% if app.user is not null and 'ROLE_ADMIN' in app.user.roles %}
+                    <li class="nav-item text-dark">
+                        <a class="nav-link active" aria-current="page" href="/admin">Admin</a>
+                    </li>
+                {% endif %}
+            </ul>
+            {% endif %}
+
+
+        </div>
+        </div>
+    </nav>
+        {% block body %}{% endblock %}
+    </body>
+</html>

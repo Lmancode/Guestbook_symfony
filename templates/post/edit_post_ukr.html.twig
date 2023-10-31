@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Update{% endblock %}
+
+{% block body %}
+<style>
+    .example-wrapper { margin: 1em auto; max-width: 800px; width: 95%; font: 18px/1.5 sans-serif; }
+    .example-wrapper code { background: #F5F5F5; padding: 2px 6px; }
+</style>
+
+<div class="example-wrapper">
+    <form method="post" action="{{path('edit_post', {'id': post.id})}}" enctype="multipart/form-data">
+        {{ form_start(form) }}
+        <div class="form-group">
+            <label> Ім'я користувача</label>
+            {{ form_widget(form.username, {'attr': {'class': 'form-control', 'placeholder': "Ім'я користувача"}}) }}
+        </div>
+        <div class="form-group">
+            <label>Емейл</label>
+            {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'Емейл'}}) }}
+        </div>
+        <div class="form-group">
+            <label> Ваш сайт</label>
+            {{ form_widget(form.homepage, {'attr': {'class': 'form-control', 'placeholder': 'Ваш сайт'}}) }}
+        </div>
+        <div class="form-group">
+            <label> Зображення</label>
+            {{ form_widget(form.image, {'attr': {'class': 'form-control mb-2'}}) }}
+        </div>
+        <div class="form-group">
+            <label> Відгук</label>
+            {{ form_widget(form.text, {'attr': {'class': 'form-control'}}) }}
+            <small  class="form-text text-muted mb-5"> Якщо ви хочете використовувати html теги, то дозволені теги тільки(a, code, i, strike, strong) !</small>
+        </div>
+        <div class="form-group">
+            {{ form_widget(form.captcha, {'attr': {'class': 'form-control w-50 mt-2', 'placeholder': 'Введіть капчу'}}) }}
+        </div>
+        <button class="btn btn-primary mt-2" type="submit"> Обновити</button>
+        {{ form_end(form) }}
+    </form>
+</div>
+{% endblock %}

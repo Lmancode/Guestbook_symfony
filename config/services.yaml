@@ -1,0 +1,43 @@
+# This file is the entry point to configure your own services.
+# Files in the packages/ subdirectory configure your dependencies.
+
+# Put parameters here that don't need to change on each machine where the app is deployed
+# https://symfony.com/doc/current/best_practices.html#use-parameters-for-application-configuration
+parameters:
+    photo_dir: '%kernel.project_dir%/public/uploads/images'
+
+services:
+    # default configuration for services in *this* file
+    _defaults:
+        autowire: true      # Automatically injects dependencies in your services.
+        autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    App\ExceptionHandler\NotFoundExceptionHandler:  #обробник помилок неправильного роута
+        arguments:
+            $router: '@router'
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception }
+
+
+    # makes classes in src/ available to be used as services
+    # this creates a service per class whose id is the fully-qualified class name
+    App\:
+        resource: '../src/'
+        exclude:
+            - '../src/DependencyInjection/'
+            - '../src/Entity/'
+            - '../src/Kernel.php'
+
+    # add more service definitions when explicit configuration is needed
+    # please note that last definitions always *replace* previous ones
+
+    admin.user:
+        class: App\Admin\UserAdmin
+        arguments: [~, App\Entity\User, ~]
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\User, controller: App\Controller\UserAdminController, manager_type: orm, group: admin, label: User }
+
+    admin.post:
+        class: App\Admin\PostAdmin
+        arguments: [ ~, App\Entity\Post, ~ ]
+        tags:
+            - { name: sonata.admin, model_class: App\Entity\Post, controller: App\Controller\PostAdminController, manager_type: orm, group: admin, label: Post }

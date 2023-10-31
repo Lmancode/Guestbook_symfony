@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block body %}
+<div class="example-wrapper ml-5 m-3">
+<form method="post">
+    {% if error %}
+        <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+    {% endif %}
+
+    {% if app.user %}
+        <div class="mb-3">
+            Ви увійшли як {{ app.user.userIdentifier }}, <a href="{{ path('app_logout') }}">Вийти</a>
+        </div>
+    {% endif %}
+
+    <h1 class="h3 mb-3 font-weight-normal">Зайдіть в аккаунт</h1>
+    <input type="email" value="{{ last_username }}" name="email" id="inputEmail" class="form-control w-25" placeholder="Емейл" autocomplete="email" required autofocus>
+    <input type="password" name="password" id="inputPassword" class="form-control w-25 mt-2" placeholder="Пароль" autocomplete="current-password" required>
+
+    <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}">
+
+    <button class="btn btn-primary mt-3" type="submit">Вхід</button>
+</form>
+    <div>
+        <p>Забули пароль? <a href="{{ path( 'app_forgot_password_request') }}">Натисніть для зміни паролю</a></p>
+        <p>Ще не маєте аккаунт? <a href="{{ path( 'app_register') }}">Натисніть для реєстрації</a></p>
+    </div>
+</div>
+{% endblock %}
